@@ -27,15 +27,48 @@ export default function HomeScreen() {
     return soma + (produto?.preco ?? 0);
   }, 0);
 
-  function finalizarPedido() {
-    if (carrinho.length === 0) {
-      Alert.alert('Carrinho vazio', 'Adicione um produto primeiro.');
-      return;
+  
+async function finalizarPedido() {
+  if (carrinho.length === 0) {
+    Alert.alert('Carrinho vazio', 'Adicione um produto primeiro.');
+    return;
+  }
+
+  try {
+    const resposta = await fetch(
+      'http://192.168.100.10:3000/pedidos',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          itens: carrinho,
+        }),
+      }
+    );
+
+    if (!resposta.ok) {
+      throw new Error('Falha ao enviar pedido');
     }
 
-    Alert.alert('RosaFood', 'Pedido realizado com sucesso!');
+    const dados = await resposta.json();
+
+    Alert.alert(
+      'RosaFood',
+      `${dados.mensagem}\nTotal: R$ ${dados.total.toFixed(2).replace('.', ',')}`
+    );
+
     setCarrinho([]);
+  } catch (erro) {
+    Alert.alert(
+      'Erro de conexão',
+      'Não foi possível enviar o pedido ao servidor.'
+    );
+    console.error(erro);
   }
+}
+
 
   return (
     <ScrollView
