@@ -43,3 +43,9 @@ example
 /android
 
 backend/node_modules/
+
+
+# Resultados gerados pelo Apache JMeter
+jmeter.log
+resultado-carga.jtl
+relatorio-carga/
