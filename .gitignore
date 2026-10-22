@@ -49,3 +49,6 @@ backend/node_modules/
 jmeter.log
 resultado-carga.jtl
 relatorio-carga/
+
+resultado-carga-50-usuarios.jtl
+relatorio-carga-50-usuarios/
